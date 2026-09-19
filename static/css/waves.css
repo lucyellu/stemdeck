@@ -1007,3 +1007,56 @@
   justify-self: end;
   gap: 18px;
 }
+
+/* ─── Collapsed waveform view ─────────────────────────────────────────
+   Fold the 6 stacked stem lanes (~48px each) into a single overlapped
+   row using mix-blend-mode so each stem keeps its color but they sum
+   visually. Toggled by the Collapse button in the wave toolbar. */
+
+.app.waves-collapsed .wave-editor {
+  grid-row: 1;
+  min-height: 0;
+  max-height: 160px;
+  height: 160px;
+}
+
+.app.waves-collapsed .stem-waveform-row {
+  position: absolute;
+  inset: 0;
+  flex: none;
+  height: 100%;
+  min-height: 0;
+  border-bottom: 0;
+  mix-blend-mode: screen;
+}
+
+.app.waves-collapsed .stem-waveform-svg path {
+  opacity: 0.68;
+}
+
+/* Keep the per-stem icons sidebar aligned to the slimmer waveform area.
+   The stem-list rows still take their natural height; we just hide
+   their bottom borders so the visual block matches the collapsed wave. */
+.app.waves-collapsed .stems-panel .stem-list {
+  height: 126px;
+  overflow: hidden;
+}
+
+#collapse-waves {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+#collapse-waves[aria-pressed="true"] {
+  background: rgba(216, 168, 74, 0.18);
+  border-color: rgba(216, 168, 74, 0.55);
+}
+
+#collapse-waves:hover {
+  background: rgba(148, 163, 184, 0.12);
+}

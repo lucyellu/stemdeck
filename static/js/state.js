@@ -41,6 +41,7 @@ export const zoomInBtn = $("zoom-in");
 export const zoomOutBtn = $("zoom-out");
 export const zoomFitBtn = $("zoom-fit");
 export const zoomTrack = $("zoom-track");
+export const collapseWavesBtn = $("collapse-waves");
 export const presenceRulerEl = $("presence-ruler");
 export const presencePlayheadEl = $("presence-playhead");
 export const footerTimeElapsed = $("footer-time-elapsed");

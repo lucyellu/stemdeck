@@ -6,7 +6,7 @@ requires-python = ">=3.10"
 dependencies = [
     "fastapi>=0.115",
     "uvicorn[standard]>=0.30",
-    "yt-dlp>=2024.12.0",
+    "yt-dlp>=2026.8.19",
     "demucs>=4.0.1",
     # Pin torch/torchaudio to 2.6.x where available — torchaudio 2.7+ removed its built-in
     # audio writer and now requires the separate `torchcodec` package, which

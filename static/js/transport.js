@@ -3,7 +3,7 @@ import {
   playBtn, playMiniBtn, stopBtn, loopBtn, timeEl, masterFader,
   rulerTime, wavesGrid, loopRegionEl, playheadMarker,
   multitrack, totalDuration, loopEnabled, loopStart, loopEnd, masterVolume,
-  waveScroll, waveCanvas, zoomInBtn, zoomOutBtn, zoomFitBtn, zoomTrack,
+  waveScroll, waveCanvas, zoomInBtn, zoomOutBtn, zoomFitBtn, zoomTrack, collapseWavesBtn,
   waveZoom, presenceRulerEl, presencePlayheadEl,
   footerTimeElapsed, footerTimeTotal, npScrubFill,
   setLoopEnabled, setLoopStart, setLoopEnd, setMasterVolume, setWaveZoom,
@@ -392,6 +392,18 @@ function wireZoomButtons() {
   applyWaveZoom();
 }
 
+function wireCollapseToggle() {
+  if (!collapseWavesBtn) return;
+  const appEl = document.querySelector(".app") || document.body;
+  collapseWavesBtn.addEventListener("click", () => {
+    const collapsed = appEl.classList.toggle("waves-collapsed");
+    collapseWavesBtn.setAttribute("aria-pressed", collapsed ? "true" : "false");
+    collapseWavesBtn.textContent = collapsed ? "Expand" : "Collapse";
+    // Wavesurfer / multitrack reads container size on resize — nudge it.
+    if (multitrack && totalDuration > 0) applyWaveZoom();
+  });
+}
+
 // ─── Wire transport buttons ───
 
 export function wireTransportButtons() {
@@ -401,6 +413,7 @@ export function wireTransportButtons() {
   loopBtn.addEventListener("click", toggleLoop);
   wireLoopDrag();
   wireZoomButtons();
+  wireCollapseToggle();
   masterFader?.addEventListener("input", () => {
     setMasterVolume(parseFloat(masterFader.value));
     applyMix();

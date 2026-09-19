@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import shutil
 import urllib.parse
 from pathlib import Path
 
@@ -133,14 +134,23 @@ def download(job: Job, url: str, job_dir: Path) -> Path:
     # No postprocessors -- Demucs reads the raw audio container (webm/m4a/opus/...)
     # directly via torchaudio + ffmpeg. Skipping the WAV transcode saves the slowest
     # part of the download pipeline and a lot of disk.
-    ydl_opts = {
+    ydl_opts: dict[str, object] = {
         "format": "bestaudio/best",
         "outtmpl": str(job_dir / "source.%(ext)s"),
         "quiet": True,
         "noprogress": True,
         "noplaylist": True,
+        "no_color": True,
+        "remote_components": ["ejs:github"],
         "progress_hooks": [hook],
     }
+    node_exe = shutil.which("node") or (
+        r"C:\Program Files\nodejs\node.exe"
+        if Path(r"C:\Program Files\nodejs\node.exe").exists()
+        else None
+    )
+    if node_exe:
+        ydl_opts["js_runtimes"] = {"node": {}}
     with YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True) or {}
 
